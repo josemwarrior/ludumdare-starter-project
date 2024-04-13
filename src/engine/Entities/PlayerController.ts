@@ -1,3 +1,4 @@
+import DialogBox from "../UI/DialogBox"
 import IEntity, { EntityType } from "./IEntity"
 
 export default class PlayerController
@@ -9,6 +10,13 @@ export default class PlayerController
 
     public static movePlayer(listEntities: IEntity[], direction: number): void
     {
+        // Avoid repeting the same message if in that direction there is a callback with a message'
+        // in other words, don't show a message or move if the dialog is already showed
+        if (DialogBox.getInstance().isShowedDialog())
+        {
+            return
+        }
+
         for (let i = 0; i < listEntities.length; i++)
         {
             const entity = listEntities[i]
