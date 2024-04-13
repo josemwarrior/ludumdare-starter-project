@@ -2,6 +2,7 @@ import { Container, Graphics, Loader, Sprite, Text, TextStyle } from "pixi.js";
 import { IScene } from "../../engine/Scenes/IScene";
 import { SCREEN_HEIGHT, SCREEN_WIDTH, SCALE } from "../Cons";
 import DialogBox from "../../engine/UI/DialogBox";
+import { Keyboard } from "../../engine/Input/Keyboard";
 
 export class EmptyScene extends Container implements IScene
 {
@@ -39,10 +40,12 @@ export class EmptyScene extends Container implements IScene
         dialogBox.showText(labelWelcome);
         this.addChild(dialogBox);
 
-
-
-
+        // Add keyboard listener
+        Keyboard.getInstance().subscribe('Space', () => {
+            console.log('Space pressed');
+        });
     }
+
 
     update(framesPassed: number): void
     {
