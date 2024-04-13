@@ -2,6 +2,8 @@ export const assets = [
     // Sprites
     { name: 'tile_01', url: 'assets/sprites/tile_01.png' },
     { name: 'end_dialog', url: 'assets/sprites/engine/end_dialog.png' },
+    { name: 'player', url: 'assets/sprites/player.png' },
+    { name: 'block', url: 'assets/sprites/block.png' },
   
     // Particles
     //{ name: 'particle_fire', url: 'assets/sprites/particles/particle_fire.png' },
@@ -11,6 +13,7 @@ export const assets = [
 
     // Spritesheets
     // Loader.shared.resources['tag'].spritesheet?.animations['animation name']!
+    { name: 'frames', url: 'assets/sprites/frames.json' },
 
     // Fonts
     //{ name: 'roboto', url: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap' },
