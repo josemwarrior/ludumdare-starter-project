@@ -31,7 +31,10 @@ export class NewScene extends Container implements IScene
 
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
 
-        this.addControl();
+        setTimeout(() => {
+            this.addControl()
+        }, 10)
+
 
         this.addChild(this.layerEntities);
         this.addChild(this.layerHUD);
@@ -87,7 +90,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT, 'NewScene')
             }
         });
 
@@ -96,7 +99,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT    , 'NewScene')
             }
         });
         // up
@@ -104,7 +107,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.UP)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.UP   , 'NewScene')
             }
         });
         // down
@@ -112,7 +115,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN , 'NewScene')
             }
         });
     }

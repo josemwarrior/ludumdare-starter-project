@@ -96,7 +96,7 @@ export class EmptyScene extends Container implements IScene
         this.arrEntities = []
         this.layerEntities.removeChildren()
         this.layerHUD.removeChildren()
-        //Keyboard.getInstance().clear()
+        Keyboard.getInstance().clear()
         ManagerScene.switchScene(scene)
     }
 
@@ -107,7 +107,7 @@ export class EmptyScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT, 'EmptyScene')
             }
         });
 
@@ -116,7 +116,7 @@ export class EmptyScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT , 'EmptyScene')
             }
         });
         // up
@@ -124,7 +124,7 @@ export class EmptyScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.UP)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.UP   , 'EmptyScene')
             }
         });
         // down
@@ -132,7 +132,7 @@ export class EmptyScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN)
+                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN , 'EmptyScene')
             }
         });
     }

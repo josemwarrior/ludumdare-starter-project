@@ -59,6 +59,16 @@ export class Keyboard
         this.keyDownCallbacks.get(key)?.push(callback);
     }
 
+    public unSubscribe(key: string, callback: () => void): void
+    {
+        const callbacks = this.keyDownCallbacks.get(key) || [];
+        const index = callbacks.indexOf(callback);
+        if (index > -1)
+        {
+            callbacks.splice(index, 1);
+        }
+    }
+
     clear()
     {
         this.keyDownCallbacks.clear()

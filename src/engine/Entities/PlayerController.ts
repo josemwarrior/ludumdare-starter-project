@@ -9,7 +9,7 @@ export default class PlayerController
     public static UP: number = 2
     public static DOWN: number = 3
 
-    public static movePlayer(listEntities: IEntity[], direction: number): void
+    public static movePlayer(listEntities: IEntity[], direction: number, escena: string): void
     {
         // Avoid repeting the same message if in that direction there is a callback with a message'
         // in other words, don't show a message or move if the dialog is already showed
