@@ -41,11 +41,6 @@ export class LoaderScene extends Container implements IScene
        
     }
 
-    reloadFonts(): void
-    {
-        //console.log("fonts are loaded")
-    }
-
     resize(screenWidth: number, screenHeight: number): void
     {
 
