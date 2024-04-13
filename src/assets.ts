@@ -4,6 +4,7 @@ export const assets = [
     { name: 'end_dialog', url: 'assets/sprites/engine/end_dialog.png' },
     { name: 'player', url: 'assets/sprites/player.png' },
     { name: 'block', url: 'assets/sprites/block.png' },
+    { name: 'potion', url: 'assets/sprites/potion.png' },
   
     // Particles
     //{ name: 'particle_fire', url: 'assets/sprites/particles/particle_fire.png' },

@@ -10,6 +10,7 @@ import { Palette } from "../../engine/Utils/Palette";
 import PlayerController from "../../engine/Entities/PlayerController";
 import { Entity } from "../../engine/Entities/Entity";
 import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
+import { UserData } from "../UserData";
 
 export class EmptyScene extends Container implements IScene
 {
@@ -28,11 +29,15 @@ export class EmptyScene extends Container implements IScene
     {
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
 
+        this.addControl();
+
         this.addChild(this.layerEntities);
         this.addChild(this.layerHUD);
 
+        // Add dialog box to the Scene
         this.layerHUD.addChild(DialogBox.getInstance());
         
+        // Add Entities
         const sprite = new Sprite(Loader.shared.resources['tile_01'].texture!);
         sprite.scale.set(SCALE);
         this.layerEntities.addChild(sprite);
@@ -49,45 +54,58 @@ export class EmptyScene extends Container implements IScene
         this.layerEntities.addChild(block);
         this.arrEntities.push(block);
         block.callback = () => {
-            DialogBox.getInstance().showText('You can\'t move here!')
+            DialogBox.getInstance().showText('You can\'t move here')
         }
 
+        const potion = new Entity(Loader.shared.resources['potion'].texture!, EntityType.ITEM);
+        potion.scale.set(SCALE);
+        potion.position.set(24 * SCALE, 24 * SCALE);
+        this.layerEntities.addChild(potion);
+        this.arrEntities.push(potion);
+        potion.callback = () => {
+            DialogBox.getInstance().showText('You found a potion!')
+            UserData.potions = ++UserData.potions
+            this.layerEntities.removeChild(potion)
+        }
+
+        DialogBox.getInstance().showText('hello')
+    }
+
+    addControl()
+    {
         // Add keyboard listener
-        Keyboard.getInstance().subscribe('ArrowLeft', () => {
+        Keyboard.getInstance().subscribe('ArrowLeft', () =>
+        {
             if (!this.checkText())
             {
                 PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT)
             }
         });
-        
+
         // right
-        Keyboard.getInstance().subscribe('ArrowRight', () => {
+        Keyboard.getInstance().subscribe('ArrowRight', () =>
+        {
             if (!this.checkText())
             {
                 PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT)
             }
         });
         // up
-        Keyboard.getInstance().subscribe('ArrowUp', () => {
-
-            // const labelWelcome = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vel leo porttitor, viverra nulla at, lobortis justo. Integer nec leo turpis.'
-
-            // const dialogBox = DialogBox.getInstance();
-            // dialogBox.showText(labelWelcome);
-            // this.addChild(dialogBox);
+        Keyboard.getInstance().subscribe('ArrowUp', () =>
+        {
             if (!this.checkText())
             {
                 PlayerController.movePlayer(this.arrEntities, PlayerController.UP)
             }
         });
         // down
-        Keyboard.getInstance().subscribe('ArrowDown', () => {
+        Keyboard.getInstance().subscribe('ArrowDown', () =>
+        {
             if (!this.checkText())
             {
                 PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN)
             }
         });
-
     }
 
     private checkText(): boolean
@@ -100,8 +118,6 @@ export class EmptyScene extends Container implements IScene
         }
         return isTextShow
     }
-    
-
 
     update(delta: number): void
     {

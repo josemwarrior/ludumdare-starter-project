@@ -122,7 +122,8 @@ export default class DialogBox extends Container
             wordWrapWidth: this.wordWrapWidth,
             lineHeight: this.lineHeigth
         })
-        const text = this.textLines[0] + ' ' + this.textLines[1]
+        let text = this.textLines[0]
+        text += (this.textLines[1]!=undefined) ? ' ' + this.textLines[1] : ''
         this.textDialog = new Text('', styleAnimation)
         this.textDialog.position.set(this.dialogBox.x + 4 * SCALE, this.dialogBox.y + 4 * SCALE)
         this.addChild(this.textDialog)
@@ -136,10 +137,10 @@ export default class DialogBox extends Container
             drawText.text = text.substring(0, drawText.text.length + 1)
             setTimeout(() => this.printCharacters(drawText, text), this.intervalCharacter)
 
+            // Wait for the action of the player
             if (drawText.text.length === text.length)
             {
                 this.lineEnded = true
-               //this.endDialog.visible = true
                 this.twnEndDialog = new Tween(this.endDialog).to({ alpha: 1 }, 1).repeatDelay(500).easing(Easing.Linear.None).repeat(Infinity).yoyo(true).start();
             }
         }
@@ -189,7 +190,6 @@ export default class DialogBox extends Container
                 this.textLines.push(textLine)
             }
         }
-        
     }
 
 }

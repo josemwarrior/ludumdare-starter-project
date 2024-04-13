@@ -14,15 +14,15 @@ export default class PlayerController
             const entity = listEntities[i]
             if (entity.type == EntityType.PLAYER)
             {
-
+                // Check blocks
                 for (let j = 0; j < listEntities.length; j++)
                 {
                     const blockEntity = listEntities[j]
                     let moveToPosition = { x: 0, y: 0}
-                    if (blockEntity.type !== EntityType.BLOCK)
-                    {
-                        continue
-                    }
+                    // if (blockEntity.type !== EntityType.BLOCK)
+                    // {
+                    //     continue
+                    // }
                     switch(direction)
                     {
                         case PlayerController.LEFT:
@@ -47,8 +47,17 @@ export default class PlayerController
                         }
                         return
                     }
+                    if (blockEntity.type === EntityType.ITEM && moveToPosition.x === blockEntity.normalizedX && moveToPosition.y === blockEntity.normalizedY)
+                    {
+                        if (blockEntity.callback !== undefined)
+                        {
+                            blockEntity.callback()
+                        }
+                        
+                    }
                 }
-                entity.move(direction)                
+                entity.move(direction)
+                        
             }
         }
     }
