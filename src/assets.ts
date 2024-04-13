@@ -1,6 +1,7 @@
 export const assets = [
     // Sprites
     { name: 'tile_01', url: 'assets/sprites/tile_01.png' },
+    { name: 'end_dialog', url: 'assets/sprites/engine/end_dialog.png' },
   
     // Particles
     //{ name: 'particle_fire', url: 'assets/sprites/particles/particle_fire.png' },
