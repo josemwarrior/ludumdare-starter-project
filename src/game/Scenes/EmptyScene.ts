@@ -64,8 +64,11 @@ export class EmptyScene extends Container implements IScene
         this.arrEntities.push(potion);
         potion.callback = () => {
             DialogBox.getInstance().showText('You found a potion!')
-            UserData.potions = ++UserData.potions
+            UserData.potions = 1
+            // Remove potion from scene
             this.layerEntities.removeChild(potion)
+            // Remove potion from array of Entities
+            this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
         }
 
         DialogBox.getInstance().showText('hello')
