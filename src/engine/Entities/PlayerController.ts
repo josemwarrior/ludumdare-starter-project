@@ -17,12 +17,9 @@ export default class PlayerController
                 // Check blocks
                 for (let j = 0; j < listEntities.length; j++)
                 {
-                    const blockEntity = listEntities[j]
+                    const checkEntity = listEntities[j]
                     let moveToPosition = { x: 0, y: 0}
-                    // if (blockEntity.type !== EntityType.BLOCK)
-                    // {
-                    //     continue
-                    // }
+
                     switch(direction)
                     {
                         case PlayerController.LEFT:
@@ -39,23 +36,24 @@ export default class PlayerController
                             break
                     }
 
-                    if (blockEntity.type === EntityType.BLOCK && moveToPosition.x === blockEntity.normalizedX && moveToPosition.y === blockEntity.normalizedY)
+                    if (checkEntity.type === EntityType.BLOCK && moveToPosition.x === checkEntity.normalizedX && moveToPosition.y === checkEntity.normalizedY)
                     {
-                        if (blockEntity.callback !== undefined)
+                        if (checkEntity.callback !== undefined)
                         {
-                            blockEntity.callback()
+                            checkEntity.callback()
                         }
                         return
                     }
-                    if (blockEntity.type === EntityType.ITEM && moveToPosition.x === blockEntity.normalizedX && moveToPosition.y === blockEntity.normalizedY)
+
+                    if (checkEntity.type === EntityType.ITEM && moveToPosition.x === checkEntity.normalizedX && moveToPosition.y === checkEntity.normalizedY)
                     {
-                        if (blockEntity.callback !== undefined)
+                        if (checkEntity.callback !== undefined)
                         {
-                            blockEntity.callback()
+                            checkEntity.callback()
                         }
-                        
                     }
                 }
+                
                 entity.move(direction)
                         
             }

@@ -5,6 +5,8 @@ export const assets = [
     { name: 'player', url: 'assets/sprites/player.png' },
     { name: 'block', url: 'assets/sprites/block.png' },
     { name: 'potion', url: 'assets/sprites/potion.png' },
+    { name: 'exit', url: 'assets/sprites/exit.png' },
+    { name: 'room00', url: 'assets/sprites/room00.png' },
   
     // Particles
     //{ name: 'particle_fire', url: 'assets/sprites/particles/particle_fire.png' },

@@ -11,9 +11,8 @@ import PlayerController from "../../engine/Entities/PlayerController";
 import { Entity } from "../../engine/Entities/Entity";
 import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
-import { NewScene } from "./NewScene";
 
-export class EmptyScene extends Container implements IScene
+export class NewScene extends Container implements IScene
 {
 
     public arrEntities: IEntitie[] = []
@@ -41,9 +40,9 @@ export class EmptyScene extends Container implements IScene
         this.layerHUD.addChild(DialogBox.getInstance());
         
         // Add background
-        const background = new Sprite(Loader.shared.resources['room00'].texture!);
-        background.scale.set(SCALE);
-        this.layerEntities.addChild(background);
+        // const background = new Sprite(Loader.shared.resources['room00'].texture!);
+        // background.scale.set(SCALE);
+        // this.layerEntities.addChild(background);
 
         // Add Entities
         const sprite = new Sprite(Loader.shared.resources['tile_01'].texture!);
@@ -52,7 +51,7 @@ export class EmptyScene extends Container implements IScene
 
         const player = new AnimationEntity(Loader.shared.resources['frames'].spritesheet?.animations['player']!, EntityType.PLAYER);
         player.scale.set(SCALE);
-        player.position.set(8 * SCALE, 8 * SCALE);
+        player.position.set(32 * SCALE, 0 * SCALE);
         this.layerEntities.addChild(player);
         this.arrEntities.push(player);
 
@@ -79,25 +78,6 @@ export class EmptyScene extends Container implements IScene
             this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
         }
 
-        const exit = new Entity(Loader.shared.resources['exit'].texture!, EntityType.ITEM);
-        exit.scale.set(SCALE);
-        exit.position.set(80 * SCALE, 56 * SCALE);
-        this.layerEntities.addChild(exit);
-        this.arrEntities.push(exit);
-        exit.callback = () => {
-            this.changeScene(new NewScene(), 32, 0)
-        }
-
-        DialogBox.getInstance().showText('hello')
-    }
-    changeScene(scene: IScene, x: number, y: number )
-    {
-        UserData.spawnPoint = { x: x, y: y }
-        this.arrEntities = []
-        this.layerEntities.removeChildren()
-        this.layerHUD.removeChildren()
-        //Keyboard.getInstance().clear()
-        ManagerScene.switchScene(scene)
     }
 
     addControl()

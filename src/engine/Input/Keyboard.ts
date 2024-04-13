@@ -1,6 +1,5 @@
 export class Keyboard
 {
-
     private static instance: Keyboard;
     public state: Map<string, boolean>;
     private pressedKeys: Set<string>;
@@ -59,4 +58,10 @@ export class Keyboard
         }
         this.keyDownCallbacks.get(key)?.push(callback);
     }
+
+    clear()
+    {
+        this.keyDownCallbacks.clear()
+    }
+
 }
