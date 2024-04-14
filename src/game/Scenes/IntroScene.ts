@@ -13,8 +13,9 @@ import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
 import { Sound } from "@pixi/sound";
 import { MapScene } from "./MapScene";
+import { HouseScene } from "./HouseScene";
 
-export class GameOverScene extends Container implements IScene
+export class IntroScene extends Container implements IScene
 {
 
     public arrEntities: IEntitie[] = []
@@ -44,18 +45,15 @@ export class GameOverScene extends Container implements IScene
         this.layerHUD.addChild(DialogBox.getInstance());
 
         // Add background
-        const background = new Sprite(Loader.shared.resources['GameOverScene'].texture!);
+        const background = new Sprite(Loader.shared.resources['IntroScene'].texture!);
         background.scale.set(SCALE);
         this.layerEntities.addChild(background);
 
-        if (!UserData.carRepaired)
+        DialogBox.getInstance().showText('Use the arrow keys to control the game.', () =>
         {
-            DialogBox.getInstance().showText('Because you were walking you took too long and the summoning became too powerful. It has grown so powerful that it now rules the village, and soon the world... you have lost.')
-        } 
-        else
-        {
-            DialogBox.getInstance().showText('You chose wrong, that item has given the summon enormous power and now it rules the village, and soon the world...you have lost.')
+            this.changeScene(new HouseScene(), 5, 7)
         }
+        )
 
     }
 

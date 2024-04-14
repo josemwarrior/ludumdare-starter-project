@@ -34,6 +34,7 @@ export const assets = [
     { name: 'TownScene', url: 'assets/sprites/TownScene.png'},
     { name: 'GraveyardScene', url: 'assets/sprites/GraveyardScene.png'},
     { name: 'WinnerScene', url: 'assets/sprites/WinnerScene.png'},
+    { name: 'IntroScene', url: 'assets/sprites/IntroScene.png' },
 
 
 

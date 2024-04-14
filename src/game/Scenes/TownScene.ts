@@ -126,17 +126,17 @@ export class TownScene extends Container implements IScene
         if (UserData.stepsAdventure === 1)
         {
             // ese tio está un poco nervioso
-            witnessGuyLine = 'Spectator:"That guy over there seems to be a bit nervous."'
+            witnessGuyLine = 'Spectator: "That guy over there seems to be a bit nervous."'
         }
         else    
         {
             if (UserData.manCured)
             {
-                witnessGuyLine = 'Spectator:"Wow, you\'re amazing."'
+                witnessGuyLine = 'Spectator: "Wow, you\'re amazing."'
             }
             else
             {
-                witnessGuyLine = 'Spectator:"It\'s the second time you\'ve messed up this month. Start looking for a new job..."'
+                witnessGuyLine = 'Spectator: "It\'s the second time you\'ve messed up this month. Start looking for a new job..."'
             }
         }
 

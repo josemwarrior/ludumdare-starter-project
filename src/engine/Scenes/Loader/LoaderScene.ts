@@ -6,6 +6,7 @@ import { IScene } from "../IScene";
 
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
 import { HouseScene } from "../../../game/Scenes/HouseScene";
+import { IntroScene } from "../../../game/Scenes/IntroScene";
 
 
 
@@ -67,7 +68,7 @@ export class LoaderScene extends Container implements IScene
         // ...but you could build your entire game here if you want
         // (pls don't)
         // Change scene to the game scene!
-        ManagerScene.switchScene(new HouseScene());
+        ManagerScene.switchScene(new IntroScene());
     }
 
     public update(deltaTime: number): void

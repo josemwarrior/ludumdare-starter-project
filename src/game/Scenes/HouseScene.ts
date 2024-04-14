@@ -103,6 +103,22 @@ export class HouseScene extends Container implements IScene
 
         }
 
+        const cleanHouse = new Entity(Loader.shared.resources['block'].texture!, EntityType.ITEM);
+        cleanHouse.visible = false
+        cleanHouse.scale.set(SCALE);
+        cleanHouse.position.set(9 * 8 * SCALE, 7 * 8 * SCALE);
+        this.layerEntities.addChild(cleanHouse);	
+        this.arrEntities.push(cleanHouse);
+        cleanHouse.callback = () =>
+        {
+            DialogBox.getInstance().showText('You: "Wow, I should clean up this dump someday."', () =>
+            {
+                // remove cleanHouse
+                this.layerEntities.removeChild(cleanHouse)
+                this.arrEntities.splice(this.arrEntities.indexOf(cleanHouse), 1)
+            })
+        }
+
         const array_blocks = [[4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4], [10, 4], [11, 4],
         [4, 10], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10],
         [4, 5], [4, 6], [4, 7], [4, 8], [4, 9],
