@@ -13,7 +13,7 @@ import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
 import { NewScene } from "./NewScene";
 
-export class EmptyScene extends Container implements IScene
+export class HouseScene extends Container implements IScene
 {
 
     public arrEntities: IEntitie[] = []
@@ -50,7 +50,7 @@ export class EmptyScene extends Container implements IScene
         sprite.scale.set(SCALE);
         this.layerEntities.addChild(sprite);
 
-        const player = new AnimationEntity(Loader.shared.resources['frames'].spritesheet?.animations['player']!, EntityType.PLAYER);
+        const player = new Entity(Loader.shared.resources['hero'].texture!, EntityType.PLAYER);
         player.scale.set(SCALE);
         player.position.set(8 * SCALE, 8 * SCALE);
         this.layerEntities.addChild(player);
@@ -79,6 +79,7 @@ export class EmptyScene extends Container implements IScene
             this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
         }
 
+        // Exits
         const exit = new Entity(Loader.shared.resources['exit'].texture!, EntityType.ITEM);
         exit.scale.set(SCALE);
         exit.position.set(80 * SCALE, 56 * SCALE);
@@ -90,6 +91,7 @@ export class EmptyScene extends Container implements IScene
 
         DialogBox.getInstance().showText('hello')
     }
+
     changeScene(scene: IScene, x: number, y: number )
     {
         UserData.spawnPoint = { x: x, y: y }

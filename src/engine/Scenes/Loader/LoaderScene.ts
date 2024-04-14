@@ -3,8 +3,9 @@ import { LoadingBar } from "./LoadingBar";
 import { assets } from "../../../assets";
 import { ManagerScene } from "../ManagerScene";
 import { IScene } from "../IScene";
-import { EmptyScene } from "../../../game/Scenes/EmptyScene";
+
 import { WebfontLoaderPlugin } from "pixi-webfont-loader";
+import { HouseScene } from "../../../game/Scenes/HouseScene";
 
 
 
@@ -61,7 +62,7 @@ export class LoaderScene extends Container implements IScene
         // ...but you could build your entire game here if you want
         // (pls don't)
         // Change scene to the game scene!
-        ManagerScene.switchScene(new EmptyScene());
+        ManagerScene.switchScene(new HouseScene());
     }
 
     public update(deltaTime: number): void
