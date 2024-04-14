@@ -17,6 +17,7 @@ export default class DialogBox extends Container
     private lineEnded: boolean = false
     private endDialog: Sprite
     private twnEndDialog: Tween<Sprite>
+    public callback?: () => void
 
     private constructor()
     {
@@ -54,8 +55,9 @@ export default class DialogBox extends Container
         return DialogBox.instance
     }
 
-    public showText(text: string): void
+    public showText(text: string, callback?: () => void): void
     {
+        this.callback = callback
         if (this.showedDialog)
         {
             return
@@ -86,6 +88,10 @@ export default class DialogBox extends Container
             if (this.textLines.length == 0)
             {
                 this.removeDialog()
+                if (this.callback)
+                {
+                    this.callback()
+                }
             }
             else
             {

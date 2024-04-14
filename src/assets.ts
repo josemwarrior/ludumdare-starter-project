@@ -8,12 +8,14 @@ export const assets = [
     { name: 'exit', url: 'assets/sprites/exit.png' },
     { name: 'room00', url: 'assets/sprites/room00.png' },
     { name: 'hero', url: 'assets/sprites/hero.png' },
+    { name: 'house_scene', url: 'assets/sprites/HouseScene.png' },
+    { name: 'equipment', url: 'assets/sprites/equipment.png' },
   
     // Particles
     //{ name: 'particle_fire', url: 'assets/sprites/particles/particle_fire.png' },
 
     //Sounds
-    // { name: 'click', url: 'assets/sounds/click.mp3' },
+    { name: 'toctoc', url: 'assets/sounds/toctoc.wav' },
 
     // Spritesheets
     // Loader.shared.resources['tag'].spritesheet?.animations['animation name']!

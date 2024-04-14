@@ -12,6 +12,7 @@ import { Entity } from "../../engine/Entities/Entity";
 import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
 import { NewScene } from "./NewScene";
+import { Sound } from "@pixi/sound";
 
 export class HouseScene extends Container implements IScene
 {
@@ -39,60 +40,192 @@ export class HouseScene extends Container implements IScene
 
         // Add dialog box to the Scene
         this.layerHUD.addChild(DialogBox.getInstance());
-        
+
         // Add background
-        const background = new Sprite(Loader.shared.resources['room00'].texture!);
+        const background = new Sprite(Loader.shared.resources['house_scene'].texture!);
         background.scale.set(SCALE);
         this.layerEntities.addChild(background);
 
         // Add Entities
-        const sprite = new Sprite(Loader.shared.resources['tile_01'].texture!);
-        sprite.scale.set(SCALE);
-        this.layerEntities.addChild(sprite);
+        // const sprite = new Sprite(Loader.shared.resources['tile_01'].texture!);
+        // sprite.scale.set(SCALE);
+        // this.layerEntities.addChild(sprite);
 
         const player = new Entity(Loader.shared.resources['hero'].texture!, EntityType.PLAYER);
         player.scale.set(SCALE);
-        player.position.set(8 * SCALE, 8 * SCALE);
+        player.position.set(5 * 8 * SCALE, 7 * 8 * SCALE);
         this.layerEntities.addChild(player);
         this.arrEntities.push(player);
 
-        const block = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
-        block.scale.set(SCALE);
-        block.position.set(16 * SCALE, 16 * SCALE);
-        this.layerEntities.addChild(block);
-        this.arrEntities.push(block);
-        block.callback = () => {
-            DialogBox.getInstance().showText('You can\'t move here')
+        
+        const block_door = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
+        block_door.visible = false
+        block_door.scale.set(SCALE);
+        block_door.position.set(11 * 8 * SCALE, 7 * 8 * SCALE);
+        this.layerEntities.addChild(block_door);
+        this.arrEntities.push(block_door);
+        block_door.callback = () => {
+            DialogBox.getInstance().showText('You: "I should gather my equipment before heading out."')
+        }
+        
+        const equipment = new Entity(Loader.shared.resources['equipment'].texture!, EntityType.ITEM);
+        equipment.scale.set(SCALE);
+        equipment.position.set(8 * 8 * SCALE, 9 * 8 * SCALE);
+        this.layerEntities.addChild(equipment);
+        this.arrEntities.push(equipment);
+        equipment.visible = false;
+        equipment.callback = () =>{
+
+            // Get item
+            UserData.equipment = 1
+            this.layerEntities.removeChild(equipment)
+            this.arrEntities.splice(this.arrEntities.indexOf(equipment), 1)
+
+            // show message
+            DialogBox.getInstance().showText('You: "Alright, now I\'m ready to give that evilsummoned what he deserves"')
+
+            // Show exit
+            const exit = new Entity(Loader.shared.resources['exit'].texture!, EntityType.ITEM);
+            exit.scale.set(SCALE);
+            exit.visible = false
+            exit.position.set(11 * 8 * SCALE, 7 * 8 * SCALE);
+            this.layerEntities.addChild(exit);
+            this.arrEntities.push(exit);
+            exit.callback = () => {
+                this.changeScene(new NewScene(), 32, 0)
+            }
+
+            // remove block door
+            this.layerEntities.removeChild(block_door)
+            this.arrEntities.splice(this.arrEntities.indexOf(block_door), 1)
+
         }
 
-        const potion = new Entity(Loader.shared.resources['potion'].texture!, EntityType.ITEM);
-        potion.scale.set(SCALE);
-        potion.position.set(24 * SCALE, 24 * SCALE);
-        this.layerEntities.addChild(potion);
-        this.arrEntities.push(potion);
-        potion.callback = () => {
-            DialogBox.getInstance().showText('You found a potion!')
-            UserData.potions = 1
-            // Remove potion from scene
-            this.layerEntities.removeChild(potion)
-            // Remove potion from array of Entities
-            this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
+        const array_blocks = [[4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4], [10, 4], [11, 4],
+        [4, 10], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10],
+        [4, 5], [4, 6], [4, 7], [4, 8], [4, 9],
+        [11, 5], [11, 6], [11, 8], [11, 9]
+        ]
+
+        for (let i = 0; i < array_blocks.length; i++)
+        {
+            const block = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
+            block.scale.set(SCALE);
+            block.position.set(array_blocks[i][0] * 8 * SCALE, array_blocks[i][1] * 8 * SCALE);
+            this.layerEntities.addChild(block);
+            block.visible = false
+            this.arrEntities.push(block);
         }
+
+        // Block the player for the intro scene
+        UserData.canMove = false
+
+        setTimeout(() =>
+        {
+            Sound.from(Loader.shared.resources['toctoc']).play();
+        }, 3000);
+
+        setTimeout(() =>
+        {
+            DialogBox.getInstance().showText('Knock knock!', () =>
+            {
+                setTimeout(() =>
+                {
+                    DialogBox.getInstance().showText('You: "..."', () =>
+                    {
+                        setTimeout(() =>
+                        {
+                            DialogBox.getInstance().showText('Familiar Voice: "Come on, I know you\'re there, I see your tin can with four wheels out here."', () =>
+                            {
+                                setTimeout(() =>
+                                {
+                                    DialogBox.getInstance().showText('You: (Damn it, I forgot to hide my car...)', () =>
+                                    {
+                                        setTimeout(() =>
+                                        {
+                                            DialogBox.getInstance().showText('Familiar Voice: An summoning has appeared in the cemetery, might be the work of some kids. As a Second Grade Disaster Unsummoner, it\'s your responsibility to take care of it, and swing by the town, there\'s been a bit of panic.', () =>
+                                            {
+                                                setTimeout(() =>
+                                                {
+                                                    DialogBox.getInstance().showText('You: (Geez, it\'s Thursday for heaven\'s sake, these little malevolent summoners don\'t know when to stop? I just want to finish my shift and get back home to play video games.)', () =>
+                                                    {
+                                                        setTimeout(() =>
+                                                        {
+                                                            DialogBox.getInstance().showText('Familiar Voice: Alright, do as you please, it\'s going to be your responsibility if things get worse. I\'m heading home.', () =>
+                                                            {
+                                                                setTimeout(() =>
+                                                                {
+                                                                    DialogBox.getInstance().showText('You: Damn it, I\'ll have to go deal with that stupid summoning. Can\'t forget to pick up my Equipment...', () =>
+                                                                    {
+                                                                        UserData.canMove = true
+                                                                        equipment.visible = true
+                                                                    }
+                                                                    );
+                                                                }
+                                                                    , 500);
+                                                            }
+                                                            );
+                                                        }
+                                                            , 500);
+                                                    }
+                                                    );
+                                                }
+                                                    , 500);
+                                            }
+                                            );
+                                        }
+                                            , 500);
+                                    }
+                                    );
+                                }, 500);
+
+
+                            });
+                        }, 500);
+                    });
+                }, 2000);
+
+            })
+        }, 3000);
+
+
+        // const block = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
+        // block.scale.set(SCALE);
+        // block.position.set(16 * SCALE, 16 * SCALE);
+        // this.layerEntities.addChild(block);
+        // this.arrEntities.push(block);
+        // block.callback = () => {
+        //     DialogBox.getInstance().showText('You can\'t move here')
+        // }
+
+        // const potion = new Entity(Loader.shared.resources['potion'].texture!, EntityType.ITEM);
+        // potion.scale.set(SCALE);
+        // potion.position.set(24 * SCALE, 24 * SCALE);
+        // this.layerEntities.addChild(potion);
+        // this.arrEntities.push(potion);
+        // potion.callback = () => {
+        //     DialogBox.getInstance().showText('You found a potion!')
+        //     UserData.potions = 1
+        //     // Remove potion from scene
+        //     this.layerEntities.removeChild(potion)
+        //     // Remove potion from array of Entities
+        //     this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
+        // }
 
         // Exits
-        const exit = new Entity(Loader.shared.resources['exit'].texture!, EntityType.ITEM);
-        exit.scale.set(SCALE);
-        exit.position.set(80 * SCALE, 56 * SCALE);
-        this.layerEntities.addChild(exit);
-        this.arrEntities.push(exit);
-        exit.callback = () => {
-            this.changeScene(new NewScene(), 32, 0)
-        }
+        // const exit = new Entity(Loader.shared.resources['exit'].texture!, EntityType.ITEM);
+        // exit.scale.set(SCALE);
+        // exit.position.set(80 * SCALE, 56 * SCALE);
+        // this.layerEntities.addChild(exit);
+        // this.arrEntities.push(exit);
+        // exit.callback = () => {
+        //     this.changeScene(new NewScene(), 32, 0)
+        // }
 
-        DialogBox.getInstance().showText('hello')
+        // DialogBox.getInstance().showText('hello')
     }
 
-    changeScene(scene: IScene, x: number, y: number )
+    changeScene(scene: IScene, x: number, y: number)
     {
         UserData.spawnPoint = { x: x, y: y }
         this.arrEntities = []
@@ -118,7 +251,7 @@ export class HouseScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT , 'EmptyScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT, 'EmptyScene')
             }
         });
         // up
@@ -126,7 +259,7 @@ export class HouseScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.UP   , 'EmptyScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.UP, 'EmptyScene')
             }
         });
         // down
@@ -134,7 +267,7 @@ export class HouseScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN , 'EmptyScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN, 'EmptyScene')
             }
         });
     }
