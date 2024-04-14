@@ -11,8 +11,10 @@ import PlayerController from "../../engine/Entities/PlayerController";
 import { Entity } from "../../engine/Entities/Entity";
 import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
+import { Sound } from "@pixi/sound";
+import { MapScene } from "./MapScene";
 
-export class NewScene extends Container implements IScene
+export class WinnerScene extends Container implements IScene
 {
 
     public arrEntities: IEntitie[] = []
@@ -22,65 +24,49 @@ export class NewScene extends Container implements IScene
     constructor()
     {
         super();
-        this.create();
     }
 
-    create()
+    start()
     {
         this.arrEntities = []
 
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
 
-        setTimeout(() => {
+        setTimeout(() =>
+        {
             this.addControl()
         }, 10)
-
 
         this.addChild(this.layerEntities);
         this.addChild(this.layerHUD);
 
         // Add dialog box to the Scene
         this.layerHUD.addChild(DialogBox.getInstance());
-        
+
         // Add background
-        // const background = new Sprite(Loader.shared.resources['room00'].texture!);
-        // background.scale.set(SCALE);
-        // this.layerEntities.addChild(background);
+        const background = new Sprite(Loader.shared.resources['WinnerScene'].texture!);
+        background.scale.set(SCALE);
+        this.layerEntities.addChild(background);
 
-        // Add Entities
-        const sprite = new Sprite(Loader.shared.resources['tile_01'].texture!);
-        sprite.scale.set(SCALE);
-        this.layerEntities.addChild(sprite);
-
-        const player = new AnimationEntity(Loader.shared.resources['frames'].spritesheet?.animations['player']!, EntityType.PLAYER);
-        player.scale.set(SCALE);
-        player.position.set(32 * SCALE, 0 * SCALE);
-        this.layerEntities.addChild(player);
-        this.arrEntities.push(player);
-
-        const block = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
-        block.scale.set(SCALE);
-        block.position.set(16 * SCALE, 16 * SCALE);
-        this.layerEntities.addChild(block);
-        this.arrEntities.push(block);
-        block.callback = () => {
-            DialogBox.getInstance().showText('You can\'t move here')
+        DialogBox.getInstance().showText('You: "Phew, who knew that wrench would deliver the coup de grace to this creature... it\'s been a hard day\'s work, I deserve an ice cream... this job is not paid for..."', () =>
+        {
+            setTimeout(() => {
+                DialogBox.getInstance().showText('The End.')
+            }, 500);
         }
+        )
 
-        const potion = new Entity(Loader.shared.resources['potion'].texture!, EntityType.ITEM);
-        potion.scale.set(SCALE);
-        potion.position.set(24 * SCALE, 24 * SCALE);
-        this.layerEntities.addChild(potion);
-        this.arrEntities.push(potion);
-        potion.callback = () => {
-            DialogBox.getInstance().showText('You found a potion!')
-            UserData.potions = 1
-            // Remove potion from scene
-            this.layerEntities.removeChild(potion)
-            // Remove potion from array of Entities
-            this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
-        }
+    }
 
+    changeScene(scene: IScene, spawnX: number, spawnY: number)
+    {
+        UserData.spawnPointX = spawnX
+        UserData.spawnPointY = spawnY 
+        this.arrEntities = []
+        this.layerEntities.removeChildren()
+        this.layerHUD.removeChildren()
+        Keyboard.getInstance().clear()
+        ManagerScene.switchScene(scene)
     }
 
     addControl()
@@ -90,7 +76,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT, 'NewScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.LEFT, 'EmptyScene')
             }
         });
 
@@ -99,7 +85,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT    , 'NewScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.RIGHT, 'EmptyScene')
             }
         });
         // up
@@ -107,7 +93,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.UP   , 'NewScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.UP, 'EmptyScene')
             }
         });
         // down
@@ -115,7 +101,7 @@ export class NewScene extends Container implements IScene
         {
             if (!this.checkText())
             {
-                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN , 'NewScene')
+                PlayerController.movePlayer(this.arrEntities, PlayerController.DOWN, 'EmptyScene')
             }
         });
     }

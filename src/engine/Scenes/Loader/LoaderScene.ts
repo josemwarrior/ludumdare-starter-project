@@ -42,6 +42,11 @@ export class LoaderScene extends Container implements IScene
        
     }
 
+    start(): void
+    {
+        // To be a scene we must have the start method even if we don't use it.
+    }
+
     resize(screenWidth: number, screenHeight: number): void
     {
 

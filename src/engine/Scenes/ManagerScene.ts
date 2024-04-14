@@ -1,4 +1,5 @@
 import { Application, DisplayObject, SCALE_MODES, settings } from "pixi.js";
+import { IScene } from "./IScene";
 
 export const enum Resize { LETTERBOX, RESPONSIVE }
 
@@ -104,6 +105,8 @@ export class ManagerScene
         // Add the new scene
         ManagerScene.currentScene = scene;
         ManagerScene.app.stage.addChild(ManagerScene.currentScene);
+        // call start method from scene
+        ManagerScene.currentScene.start();
     }
 
     // Call this function to update the current scene
@@ -117,11 +120,3 @@ export class ManagerScene
 
 }
 
-// This could have a lot more generic functions that you force all your scenes to have. Update is just an example.
-// Also, this could be in its own file...
-export interface IScene extends DisplayObject 
-{
-    update(framesPassed: number): void;
-
-    resize(screenWidth: number, screenHeight: number): void;
-}

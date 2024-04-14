@@ -11,8 +11,8 @@ import PlayerController from "../../engine/Entities/PlayerController";
 import { Entity } from "../../engine/Entities/Entity";
 import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
-import { NewScene } from "./NewScene";
 import { Sound } from "@pixi/sound";
+import { ParkingScene } from "./ParkingScene";
 
 export class HouseScene extends Container implements IScene
 {
@@ -24,16 +24,15 @@ export class HouseScene extends Container implements IScene
     constructor()
     {
         super();
-        this.create();
     }
 
-    create()
+    start()
     {
         this.arrEntities = []
 
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
 
-        this.addControl();
+        
 
         this.addChild(this.layerEntities);
         this.addChild(this.layerHUD);
@@ -57,24 +56,26 @@ export class HouseScene extends Container implements IScene
         this.layerEntities.addChild(player);
         this.arrEntities.push(player);
 
-        
+
         const block_door = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
         block_door.visible = false
         block_door.scale.set(SCALE);
         block_door.position.set(11 * 8 * SCALE, 7 * 8 * SCALE);
         this.layerEntities.addChild(block_door);
         this.arrEntities.push(block_door);
-        block_door.callback = () => {
+        block_door.callback = () =>
+        {
             DialogBox.getInstance().showText('You: "I should gather my equipment before heading out."')
         }
-        
+
         const equipment = new Entity(Loader.shared.resources['equipment'].texture!, EntityType.ITEM);
         equipment.scale.set(SCALE);
         equipment.position.set(8 * 8 * SCALE, 9 * 8 * SCALE);
         this.layerEntities.addChild(equipment);
         this.arrEntities.push(equipment);
         equipment.visible = false;
-        equipment.callback = () =>{
+        equipment.callback = () =>
+        {
 
             // Get item
             UserData.equipment = 1
@@ -91,8 +92,9 @@ export class HouseScene extends Container implements IScene
             exit.position.set(11 * 8 * SCALE, 7 * 8 * SCALE);
             this.layerEntities.addChild(exit);
             this.arrEntities.push(exit);
-            exit.callback = () => {
-                this.changeScene(new NewScene(), 32, 0)
+            exit.callback = () =>
+            {
+                this.changeScene(new ParkingScene(), 2, 8)
             }
 
             // remove block door
@@ -116,7 +118,6 @@ export class HouseScene extends Container implements IScene
             block.visible = false
             this.arrEntities.push(block);
         }
-
         // Block the player for the intro scene
         UserData.canMove = false
 
@@ -143,7 +144,7 @@ export class HouseScene extends Container implements IScene
                                     {
                                         setTimeout(() =>
                                         {
-                                            DialogBox.getInstance().showText('Familiar Voice: An summoning has appeared in the cemetery, might be the work of some kids. As a Second Grade Disaster Unsummoner, it\'s your responsibility to take care of it, and swing by the town, there\'s been a bit of panic.', () =>
+                                            DialogBox.getInstance().showText('Familiar Voice: "A summoning has appeared in the cemetery, might be the work of some kids. As a Second Grade Disaster Unsummoner, it\'s your responsibility to take care of it, and stop by the town first, there\'s been a bit of panic."', () =>
                                             {
                                                 setTimeout(() =>
                                                 {
@@ -151,11 +152,11 @@ export class HouseScene extends Container implements IScene
                                                     {
                                                         setTimeout(() =>
                                                         {
-                                                            DialogBox.getInstance().showText('Familiar Voice: Alright, do as you please, it\'s going to be your responsibility if things get worse. I\'m heading home.', () =>
+                                                            DialogBox.getInstance().showText('Familiar Voice: "Alright, do as you please, it\'s going to be your responsibility if things get worse. I\'m heading home."', () =>
                                                             {
                                                                 setTimeout(() =>
                                                                 {
-                                                                    DialogBox.getInstance().showText('You: Damn it, I\'ll have to go deal with that stupid summoning. Can\'t forget to pick up my Equipment...', () =>
+                                                                    DialogBox.getInstance().showText('You: "Damn it, I\'ll have to go deal with that stupid summoning. Can\'t forget to pick up my Equipment..."', () =>
                                                                     {
                                                                         UserData.canMove = true
                                                                         equipment.visible = true
@@ -188,46 +189,13 @@ export class HouseScene extends Container implements IScene
             })
         }, 3000);
 
-
-        // const block = new Entity(Loader.shared.resources['block'].texture!, EntityType.BLOCK);
-        // block.scale.set(SCALE);
-        // block.position.set(16 * SCALE, 16 * SCALE);
-        // this.layerEntities.addChild(block);
-        // this.arrEntities.push(block);
-        // block.callback = () => {
-        //     DialogBox.getInstance().showText('You can\'t move here')
-        // }
-
-        // const potion = new Entity(Loader.shared.resources['potion'].texture!, EntityType.ITEM);
-        // potion.scale.set(SCALE);
-        // potion.position.set(24 * SCALE, 24 * SCALE);
-        // this.layerEntities.addChild(potion);
-        // this.arrEntities.push(potion);
-        // potion.callback = () => {
-        //     DialogBox.getInstance().showText('You found a potion!')
-        //     UserData.potions = 1
-        //     // Remove potion from scene
-        //     this.layerEntities.removeChild(potion)
-        //     // Remove potion from array of Entities
-        //     this.arrEntities.splice(this.arrEntities.indexOf(potion), 1)
-        // }
-
-        // Exits
-        // const exit = new Entity(Loader.shared.resources['exit'].texture!, EntityType.ITEM);
-        // exit.scale.set(SCALE);
-        // exit.position.set(80 * SCALE, 56 * SCALE);
-        // this.layerEntities.addChild(exit);
-        // this.arrEntities.push(exit);
-        // exit.callback = () => {
-        //     this.changeScene(new NewScene(), 32, 0)
-        // }
-
-        // DialogBox.getInstance().showText('hello')
+        this.addControl();
     }
 
-    changeScene(scene: IScene, x: number, y: number)
+    changeScene(scene: IScene, spawnX: number, spawnY: number)
     {
-        UserData.spawnPoint = { x: x, y: y }
+        UserData.spawnPointX = spawnX
+        UserData.spawnPointY = spawnY
         this.arrEntities = []
         this.layerEntities.removeChildren()
         this.layerHUD.removeChildren()
