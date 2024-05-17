@@ -13,6 +13,7 @@ import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
 import { Sound } from "@pixi/sound";
 import { MapScene } from "./MapScene";
+import { HouseScene } from "./HouseScene";
 
 export class WinnerScene extends Container implements IScene
 {
@@ -28,6 +29,8 @@ export class WinnerScene extends Container implements IScene
 
     start()
     {
+        UserData.beatTheGame = true
+
         this.arrEntities = []
 
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
@@ -50,8 +53,9 @@ export class WinnerScene extends Container implements IScene
 
         DialogBox.getInstance().showText('You: "Phew, who knew that wrench would deliver the coup de grace to this creature... it\'s been a hard day\'s work, I deserve an ice cream... this job is not paid for..."', () =>
         {
-            setTimeout(() => {
-                DialogBox.getInstance().showText('The End.')
+            setTimeout(() =>
+            {
+                DialogBox.getInstance().showText('The End.', this.tryNewGame.bind(this))
             }, 500);
         }
         )
@@ -61,7 +65,7 @@ export class WinnerScene extends Container implements IScene
     changeScene(scene: IScene, spawnX: number, spawnY: number)
     {
         UserData.spawnPointX = spawnX
-        UserData.spawnPointY = spawnY 
+        UserData.spawnPointY = spawnY
         this.arrEntities = []
         this.layerEntities.removeChildren()
         this.layerHUD.removeChildren()
@@ -128,6 +132,18 @@ export class WinnerScene extends Container implements IScene
 
     resize(screenWidth: number, screenHeight: number): void
     {
+    }
+
+    tryNewGame() 
+    {
+        UserData.reset()
+        setTimeout(() =>
+        {
+            DialogBox.getInstance().showText('Do you want to give it another shot?', () =>
+            {
+                this.changeScene(new HouseScene(), 5, 7)
+            });
+        }, 3000)
     }
 
 }

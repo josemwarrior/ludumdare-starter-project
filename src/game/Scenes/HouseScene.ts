@@ -32,7 +32,7 @@ export class HouseScene extends Container implements IScene
 
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
 
-        
+
 
         this.addChild(this.layerEntities);
         this.addChild(this.layerHUD);
@@ -107,7 +107,7 @@ export class HouseScene extends Container implements IScene
         cleanHouse.visible = false
         cleanHouse.scale.set(SCALE);
         cleanHouse.position.set(9 * 8 * SCALE, 7 * 8 * SCALE);
-        this.layerEntities.addChild(cleanHouse);	
+        this.layerEntities.addChild(cleanHouse);
         this.arrEntities.push(cleanHouse);
         cleanHouse.callback = () =>
         {
@@ -134,76 +134,84 @@ export class HouseScene extends Container implements IScene
             block.visible = false
             this.arrEntities.push(block);
         }
-        // Block the player for the intro scene
-        UserData.canMove = false
 
-        setTimeout(() =>
+        if (!UserData.beatTheGame)
         {
-            Sound.from(Loader.shared.resources['toctoc']).play();
-        }, 3000);
+            // Block the player for the intro scene
+            UserData.canMove = false
 
-        setTimeout(() =>
-        {
-            DialogBox.getInstance().showText('Knock knock!', () =>
+            setTimeout(() =>
             {
-                setTimeout(() =>
+                Sound.from(Loader.shared.resources['toctoc']).play();
+            }, 3000);
+
+            setTimeout(() =>
+            {
+                DialogBox.getInstance().showText('Knock knock!', () =>
                 {
-                    DialogBox.getInstance().showText('You: "..."', () =>
+                    setTimeout(() =>
                     {
-                        setTimeout(() =>
+                        DialogBox.getInstance().showText('You: "..."', () =>
                         {
-                            DialogBox.getInstance().showText('Familiar Voice: "Come on, I know you\'re there, I see your tin can with four wheels out here."', () =>
+                            setTimeout(() =>
                             {
-                                setTimeout(() =>
+                                DialogBox.getInstance().showText('Familiar Voice: "Come on, I know you\'re there, I see your tin can with four wheels out here."', () =>
                                 {
-                                    DialogBox.getInstance().showText('You: (Damn it, I forgot to hide my car...)', () =>
+                                    setTimeout(() =>
                                     {
-                                        setTimeout(() =>
+                                        DialogBox.getInstance().showText('You: (Damn it, I forgot to hide my car...)', () =>
                                         {
-                                            DialogBox.getInstance().showText('Familiar Voice: "A summoning has appeared in the cemetery, might be the work of some kids. As a Second Grade Disaster Unsummoner, it\'s your responsibility to take care of it, and stop by the town first, there\'s been a bit of panic."', () =>
+                                            setTimeout(() =>
                                             {
-                                                setTimeout(() =>
+                                                DialogBox.getInstance().showText('Familiar Voice: "A summoning has appeared in the cemetery, might be the work of some kids. As a Second Grade Disaster Unsummoner, it\'s your responsibility to take care of it, and stop by the town first, there\'s been a bit of panic."', () =>
                                                 {
-                                                    DialogBox.getInstance().showText('You: (Geez, it\'s Thursday for heaven\'s sake, these little malevolent summoners don\'t know when to stop? I just want to finish my shift and get back home to play video games.)', () =>
+                                                    setTimeout(() =>
                                                     {
-                                                        setTimeout(() =>
+                                                        DialogBox.getInstance().showText('You: (Geez, it\'s Thursday for heaven\'s sake, these little malevolent summoners don\'t know when to stop? I just want to finish my shift and get back home to play video games.)', () =>
                                                         {
-                                                            DialogBox.getInstance().showText('Familiar Voice: "Alright, do as you please, it\'s going to be your responsibility if things get worse. I\'m heading home."', () =>
+                                                            setTimeout(() =>
                                                             {
-                                                                setTimeout(() =>
+                                                                DialogBox.getInstance().showText('Familiar Voice: "Alright, do as you please, it\'s going to be your responsibility if things get worse. I\'m heading home."', () =>
                                                                 {
-                                                                    DialogBox.getInstance().showText('You: "Damn it, I\'ll have to go deal with that stupid summoning. Can\'t forget to pick up my Equipment..."', () =>
+                                                                    setTimeout(() =>
                                                                     {
-                                                                        UserData.canMove = true
-                                                                        equipment.visible = true
+                                                                        DialogBox.getInstance().showText('You: "Damn it, I\'ll have to go deal with that stupid summoning. Can\'t forget to pick up my Equipment..."', () =>
+                                                                        {
+                                                                            UserData.canMove = true
+                                                                            equipment.visible = true
+                                                                        }
+                                                                        );
                                                                     }
-                                                                    );
+                                                                        , 500);
                                                                 }
-                                                                    , 500);
+                                                                );
                                                             }
-                                                            );
+                                                                , 500);
                                                         }
-                                                            , 500);
+                                                        );
                                                     }
-                                                    );
+                                                        , 500);
                                                 }
-                                                    , 500);
+                                                );
                                             }
-                                            );
+                                                , 500);
                                         }
-                                            , 500);
-                                    }
-                                    );
-                                }, 500);
+                                        );
+                                    }, 500);
 
 
-                            });
-                        }, 500);
-                    });
-                }, 2000);
+                                });
+                            }, 500);
+                        });
+                    }, 2000);
 
-            })
-        }, 3000);
+                })
+            }, 3000);
+        }
+        else
+        {
+            equipment.visible = true
+        }
 
         this.addControl();
     }

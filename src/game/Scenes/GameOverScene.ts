@@ -13,6 +13,7 @@ import { AnimationEntity } from "../../engine/Entities/AnimationEntity";
 import { UserData } from "../UserData";
 import { Sound } from "@pixi/sound";
 import { MapScene } from "./MapScene";
+import { HouseScene } from "./HouseScene";
 
 export class GameOverScene extends Container implements IScene
 {
@@ -28,6 +29,9 @@ export class GameOverScene extends Container implements IScene
 
     start()
     {
+
+        UserData.beatTheGame = true
+
         this.arrEntities = []
 
         ManagerScene.app.renderer.backgroundColor = Palette.BROWN_LIGHT;
@@ -50,11 +54,11 @@ export class GameOverScene extends Container implements IScene
 
         if (!UserData.carRepaired)
         {
-            DialogBox.getInstance().showText('Because you were walking you took too long and the summoning became too powerful. It has grown so powerful that it now rules the village, and soon the world... you have lost.')
+            DialogBox.getInstance().showText('Because you were walking you took too long and the summoning became too powerful. It has grown so powerful that it now rules the village, and soon the world... you have lost.', this.restartGame.bind(this))
         } 
         else
         {
-            DialogBox.getInstance().showText('You chose wrong, that item has given the summon enormous power and now it rules the village, and soon the world...you have lost.')
+            DialogBox.getInstance().showText('You chose wrong, that item has given the summon enormous power and now it rules the village, and soon the world...you have lost.', this.restartGame.bind(this))
         }
 
     }
@@ -129,6 +133,20 @@ export class GameOverScene extends Container implements IScene
 
     resize(screenWidth: number, screenHeight: number): void
     {
+    }
+
+    
+    restartGame() 
+    {
+        UserData.reset()
+        setTimeout(() =>
+        {
+            DialogBox.getInstance().showText('You have been given a second chance, do not fail this time.', () =>
+            {
+                this.changeScene(new HouseScene(), 5, 7)
+
+            });
+        }, 1000)
     }
 
 }

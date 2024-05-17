@@ -57,14 +57,18 @@ export class BagScene extends Container implements IScene
         this.layerEntities.addChild(player);
         this.arrEntities.push(player);
 
-        if (UserData.stepsAdventure === 0)
-            DialogBox.getInstance().showText("This is your inventory. You can only choose a single item to repair your car; once you select it, you won't be able to choose another. To select it, simply pick it up with the cursor. Think, what's the most suitable item to repair a car?");
+        if (!UserData.beatTheGame)
+        {
 
-        if (UserData.stepsAdventure === 1)
-            DialogBox.getInstance().showText("Think carefully, what can heal a frightened man...");
+            if (UserData.stepsAdventure === 0)
+                DialogBox.getInstance().showText("This is your inventory. You can only choose a single item to repair your car; once you select it, you won't be able to choose another. To select it, simply pick it up with the cursor. Think, what's the most suitable item to repair a car?");
 
-        if (UserData.stepsAdventure === 2)
-            DialogBox.getInstance().showText('You: "I only have one item left, I\'ll have to try my luck... now or never!..."');
+            if (UserData.stepsAdventure === 1)
+                DialogBox.getInstance().showText("Think carefully, what can heal a frightened man...");
+
+            if (UserData.stepsAdventure === 2)
+                DialogBox.getInstance().showText('You: "I only have one item left, I\'ll have to try my luck... now or never!..."');
+        }
 
         if (!UserData.isWrecnchPicked)
         {
